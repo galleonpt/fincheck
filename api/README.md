@@ -5,3 +5,5 @@
 - npx prisma migrate dev
 
 - npx prisma studio
+
+- nest g resource <resource_name>
