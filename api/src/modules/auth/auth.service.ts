@@ -17,7 +17,14 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
-    async signin({ email, password }: AuthenticateDto) {
+    private generateAccessToken(userId: string): Promise<string> {
+        return this.jwtService.signAsync({ sub: userId });
+    }
+
+    async signin({
+        email,
+        password,
+    }: AuthenticateDto): Promise<{ accessToken: string }> {
         const user = await this.usersRepository.findUnique({
             where: { email },
         });
@@ -32,15 +39,17 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
 
-        const payload = { sub: user.id };
-        const accessToken = await this.jwtService.signAsync(payload);
-
+        const accessToken = await this.generateAccessToken(user.id);
         return {
             accessToken,
         };
     }
 
-    async signup({ name, email, password }: SignUpDto) {
+    async signup({
+        name,
+        email,
+        password,
+    }: SignUpDto): Promise<{ accessToken: string }> {
         const emailAlreadyInUse = await this.usersRepository.findUnique({
             where: { email },
             select: { id: true },
@@ -120,6 +129,9 @@ export class AuthService {
             },
         });
 
-        return { name: user.name, email: user.email };
+        const accessToken = await this.generateAccessToken(user.id);
+        return {
+            accessToken,
+        };
     }
 }
