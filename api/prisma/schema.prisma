@@ -24,7 +24,7 @@ model User {
 }
 
 enum EBankAccount {
-    CHEKING
+    CHECKING
     INVESTMENT
     CASH
 
