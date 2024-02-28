@@ -3,6 +3,7 @@ import { CreateBankAccountDto } from '../dto/create-bank-account.dto';
 import { UpdateBankAccountDto } from '../dto/update-bank-account.dto';
 import { BankAccountsRepository } from 'src/shared/database/repositories/bank-accounts.repository';
 import { ValidateBankAccountOwnershipService } from './validate-bank-account-ownership.service';
+import { ETransactionType } from 'src/modules/transactions/entities/Transaction';
 
 @Injectable()
 export class BankAccountsService {
@@ -44,7 +45,7 @@ export class BankAccountsService {
             const totalTransactions = transactions.reduce(
                 (acc, transaction) =>
                     acc +
-                    (transaction.type === 'INCOME'
+                    (transaction.type === ETransactionType.INCOME
                         ? transaction.value
                         : -transaction.value),
                 0,
