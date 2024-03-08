@@ -1,18 +1,19 @@
-import { ComponentProps, FC, forwardRef } from 'react';
+import { ComponentProps, forwardRef } from 'react';
 
 interface IInputProps extends ComponentProps<'input'> {
     name: string;
     error?: string;
 }
 
-const Input: FC<IInputProps> = forwardRef(
-    ({ placeholder, name, id, ...props }) => {
+const Input = forwardRef<HTMLInputElement, IInputProps>(
+    ({ placeholder, name, id, ...props }, ref) => {
         const inputId = id ?? name;
 
         return (
             <div className="relative">
                 <input
                     {...props}
+                    ref={ref}
                     id={inputId}
                     name={name}
                     placeholder=" "
