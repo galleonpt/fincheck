@@ -6,7 +6,7 @@ interface IInputProps extends ComponentProps<'input'> {
 }
 
 const Input = forwardRef<HTMLInputElement, IInputProps>(
-    ({ placeholder, name, id, ...props }, ref) => {
+    ({ placeholder, name, id, error, ...props }, ref) => {
         const inputId = id ?? name;
 
         return (
@@ -27,6 +27,13 @@ const Input = forwardRef<HTMLInputElement, IInputProps>(
                 >
                     {placeholder}
                 </label>
+
+                {error && (
+                    <div className="mt-2 flex gap-2 items-center text-red-900">
+                        {/* <CrossCircledIcon /> */}
+                        <span className="text-xs">{error}</span>
+                    </div>
+                )}
             </div>
         );
     },
