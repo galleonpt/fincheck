@@ -1,32 +1,34 @@
-import { ComponentProps, FC } from 'react';
+import { ComponentProps, FC, forwardRef } from 'react';
 
 interface IInputProps extends ComponentProps<'input'> {
     name: string;
     error?: string;
 }
 
-const Input: FC<IInputProps> = ({ placeholder, name, id, ...props }) => {
-    const inputId = id ?? name;
+const Input: FC<IInputProps> = forwardRef(
+    ({ placeholder, name, id, ...props }) => {
+        const inputId = id ?? name;
 
-    return (
-        <div className="relative">
-            <input
-                {...props}
-                id={inputId}
-                name={name}
-                placeholder=" "
-                autoComplete="off"
-                className="bg-white w-full rounded-lg border border-gray-500 px-3 h-[52px] text-gray-800 pt-4 peer placeholder-shown:pt-0 focus:border-gray-800 transition-all outline-none"
-            />
+        return (
+            <div className="relative">
+                <input
+                    {...props}
+                    id={inputId}
+                    name={name}
+                    placeholder=" "
+                    autoComplete="off"
+                    className="bg-white w-full rounded-lg border border-gray-500 px-3 h-[52px] text-gray-800 pt-4 peer placeholder-shown:pt-0 focus:border-gray-800 transition-all outline-none"
+                />
 
-            <label
-                htmlFor={inputId}
-                className="absolute text-xs left-[13px] top-2 pointer-events-none text-gray-700 peer-placeholder-shown:text-base peer-placeholder-shown:top-3.5 transition-all"
-            >
-                {placeholder}
-            </label>
-        </div>
-    );
-};
+                <label
+                    htmlFor={inputId}
+                    className="absolute text-xs left-[13px] top-2 pointer-events-none text-gray-700 peer-placeholder-shown:text-base peer-placeholder-shown:top-3.5 transition-all"
+                >
+                    {placeholder}
+                </label>
+            </div>
+        );
+    },
+);
 
 export default Input;
