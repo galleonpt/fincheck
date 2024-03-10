@@ -1,5 +1,6 @@
 import { ComponentProps, FC } from 'react';
 import cn from '../../app/utils/cn';
+import Spinner from './Spinner';
 
 interface IButtonProps extends ComponentProps<'button'> {
     loading: boolean;
@@ -21,7 +22,8 @@ const Button: FC<IButtonProps> = ({
                 className,
             )}
         >
-            {children}
+            {!loading && children}
+            {loading && <Spinner className="w-6 h-6" />}
         </button>
     );
 };
