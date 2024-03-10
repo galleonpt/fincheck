@@ -7,3 +7,12 @@ export interface ISignupPayload {
 export interface ISignupResponse {
     accessToken: string;
 }
+
+export interface ISigninPayload {
+    email: string;
+    password: string;
+}
+
+export interface ISigninResponse {
+    accessToken: string;
+}

@@ -1,5 +1,10 @@
 import httpClient from '../httpClient';
-import { ISignupPayload, ISignupResponse } from './types';
+import {
+    ISigninPayload,
+    ISigninResponse,
+    ISignupPayload,
+    ISignupResponse,
+} from './types';
 
 const signup = async (payload: ISignupPayload) => {
     const { data } = await httpClient.post<ISignupResponse>(
@@ -9,4 +14,12 @@ const signup = async (payload: ISignupPayload) => {
     return data;
 };
 
-export const authService = { signup };
+const signin = async (payload: ISigninPayload) => {
+    const { data } = await httpClient.post<ISigninResponse>(
+        '/auth/signin',
+        payload,
+    );
+    return data;
+};
+
+export const authService = { signup, signin };

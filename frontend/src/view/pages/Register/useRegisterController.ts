@@ -41,7 +41,7 @@ const useRegisterController = () => {
         }
     });
 
-    return { register, errors, handleSubmit };
+    return { register, errors, handleSubmit, isPending };
 };
 
 export default useRegisterController;
