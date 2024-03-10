@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { IAuthGuardProps } from './types';
+import useAuth from '../app/hooks/useAuth';
 
 const AuthGuard: FC<IAuthGuardProps> = ({ isPrivate }) => {
-    const signedIn = false;
+    const { signedIn } = useAuth();
 
     if (!signedIn && isPrivate) {
         return <Navigate to="/login" replace />;
