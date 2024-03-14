@@ -1,7 +1,10 @@
 import { FC } from 'react';
+import useAuth from '../../../app/hooks/useAuth';
 
 const Dashboard: FC = () => {
-    return <h1>Dashboard</h1>;
+    const { logout } = useAuth();
+
+    return <button onClick={logout}>logout</button>;
 };
 
 export default Dashboard;

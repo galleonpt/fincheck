@@ -10,6 +10,7 @@ import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from '../config/localStorageKeys';
 interface IAuthContextData {
     signedIn: boolean;
     signin: (accessToken: string) => void;
+    logout: () => void;
 }
 
 export const AuthContext = createContext({} as IAuthContextData);
@@ -29,9 +30,15 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         setSignedIn(true);
     }, []);
 
+    const logout = useCallback(() => {
+        localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
+        setSignedIn(false);
+    }, []);
+
     const contextData: IAuthContextData = {
         signedIn,
         signin,
+        logout,
     };
 
     return (
