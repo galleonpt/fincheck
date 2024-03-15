@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import Logo from '../../components/Logo';
 import UserMenu from '../../components/UserMenu';
+import Accounts from './components/Accounts';
+import Transactions from './components/Transactions';
 
 const Dashboard: FC = () => {
     return (
@@ -11,7 +13,13 @@ const Dashboard: FC = () => {
             </header>
 
             <main className="flex-1 flex flex-col lg:flex-row gap-4 max-h-full">
-                main
+                <div className="w-full lg:w-1/2">
+                    <Accounts />
+                </div>
+
+                <div className="w-full lg:w-1/2">
+                    <Transactions />
+                </div>
             </main>
         </div>
     );
