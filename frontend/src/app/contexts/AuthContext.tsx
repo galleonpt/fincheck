@@ -3,11 +3,13 @@ import {
     PropsWithChildren,
     createContext,
     useCallback,
+    useEffect,
     useState,
 } from 'react';
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from '../config/localStorageKeys';
 import { useQuery } from '@tanstack/react-query';
 import { usersService } from '../services/usersService/usersService';
+import toast from 'react-hot-toast';
 
 interface IAuthContextData {
     signedIn: boolean;
@@ -26,7 +28,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         return !!storedAccessToken;
     });
 
-    useQuery({
+    const { isError } = useQuery({
         queryKey: ['users', 'me'],
         queryFn: () => usersService.me(),
         enabled: signedIn,
@@ -42,6 +44,13 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
         setSignedIn(false);
     }, []);
+
+    useEffect(() => {
+        if (isError) {
+            toast.error('Sua sessão expirou!');
+            logout();
+        }
+    }, [isError, logout]);
 
     const contextData: IAuthContextData = {
         signedIn,
