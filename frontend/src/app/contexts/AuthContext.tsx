@@ -6,6 +6,8 @@ import {
     useState,
 } from 'react';
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from '../config/localStorageKeys';
+import { useQuery } from '@tanstack/react-query';
+import { usersService } from '../services/usersService/usersService';
 
 interface IAuthContextData {
     signedIn: boolean;
@@ -22,6 +24,11 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         );
 
         return !!storedAccessToken;
+    });
+
+    useQuery({
+        queryKey: ['users', 'me'],
+        queryFn: () => usersService.me(),
     });
 
     const signin = useCallback((accessToken: string) => {
