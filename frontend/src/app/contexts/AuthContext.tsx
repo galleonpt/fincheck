@@ -9,6 +9,7 @@ import {
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from '../config/localStorageKeys';
 import { useQuery } from '@tanstack/react-query';
 import { usersService } from '../services/usersService/usersService';
+import LaunchScreen from '../../view/components/LaunchScreen';
 import toast from 'react-hot-toast';
 
 interface IAuthContextData {
@@ -28,7 +29,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         return !!storedAccessToken;
     });
 
-    const { isError } = useQuery({
+    const { isError, isFetching, isSuccess } = useQuery({
         queryKey: ['users', 'me'],
         queryFn: () => usersService.me(),
         enabled: signedIn,
@@ -43,6 +44,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     const logout = useCallback(() => {
         localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
+
         setSignedIn(false);
     }, []);
 
@@ -54,14 +56,16 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     }, [isError, logout]);
 
     const contextData: IAuthContextData = {
-        signedIn,
+        signedIn: isSuccess && signedIn,
         signin,
         logout,
     };
 
     return (
         <AuthContext.Provider value={contextData}>
-            {children}
+            <LaunchScreen isLoading={isFetching} />
+
+            {!isFetching && children}
         </AuthContext.Provider>
     );
 };
