@@ -32,6 +32,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         queryKey: ['users', 'me'],
         queryFn: () => usersService.me(),
         enabled: signedIn,
+        staleTime: Infinity,
     });
 
     const signin = useCallback((accessToken: string) => {
