@@ -5,7 +5,7 @@ import cn from '../../../app/utils/cn';
 interface IDropdownMenuItemProps {
     children: React.ReactNode;
     className?: string;
-    onSelect?(): void;
+    onSelect?: () => void;
 }
 
 const DropdownMenuItem: FC<PropsWithChildren<IDropdownMenuItemProps>> = ({
