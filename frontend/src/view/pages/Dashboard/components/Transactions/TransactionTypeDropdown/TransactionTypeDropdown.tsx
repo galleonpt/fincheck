@@ -28,7 +28,7 @@ const TransactionTypeDropdown: FC<ITransactionTypeDropdownProps> = ({
                 </div>
             </DropdownMenu.Trigger>
 
-            <DropdownMenu.Content className="w-[279px]">
+            <DropdownMenu.Content className="w-[276px]">
                 <DropdownMenu.Item
                     className="gap-2"
                     onSelect={() => onSelect('INCOME')}

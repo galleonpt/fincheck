@@ -21,6 +21,7 @@ const Transactions: FC = () => {
         transactions,
         hasTransactions,
         isLoading,
+        handleOpenFiltersModal,
     } = useTransactionsController();
 
     if (isInitialLoading) {
@@ -43,9 +44,7 @@ const Transactions: FC = () => {
                         onSelect={() => {}}
                         selectedType={undefined}
                     />
-                    <button
-                    // onClick={handleOpenFiltersModal}
-                    >
+                    <button onClick={handleOpenFiltersModal}>
                         <FilterIcon />
                     </button>
                 </div>

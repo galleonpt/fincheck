@@ -4,6 +4,7 @@ import UserMenu from '../../components/UserMenu';
 import Accounts from './components/Accounts';
 import Transactions from './components/Transactions';
 import { DashboardProvider } from './components/DashboardContext';
+import Fab from './components/Fab';
 
 const Dashboard: FC = () => {
     return (
@@ -23,6 +24,8 @@ const Dashboard: FC = () => {
                         <Transactions />
                     </div>
                 </main>
+
+                <Fab />
             </div>
         </DashboardProvider>
     );
