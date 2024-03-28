@@ -12,9 +12,11 @@ import formatDate from '../../../../../app/utils/formateDate';
 import useTransactionsController from './useTransactionsController';
 import Spinner from '../../../../components/Spinner';
 import emptyStateImage from '../../../../../assets/empty-state.svg';
+import FiltersModal from './FiltersModal';
 
 const Transactions: FC = () => {
     const {
+        isFiltersModalOpen,
         areValuesVisible,
         handleOpenEditModal,
         isInitialLoading,
@@ -22,6 +24,7 @@ const Transactions: FC = () => {
         hasTransactions,
         isLoading,
         handleOpenFiltersModal,
+        handleCloseFiltersModal,
     } = useTransactionsController();
 
     if (isInitialLoading) {
@@ -132,6 +135,12 @@ const Transactions: FC = () => {
                     </>
                 )}
             </div>
+
+            <FiltersModal
+                open={isFiltersModalOpen}
+                onClose={handleCloseFiltersModal}
+                onApplyFilters={() => {}}
+            />
         </div>
     );
 };
