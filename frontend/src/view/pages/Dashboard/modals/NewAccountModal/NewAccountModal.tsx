@@ -37,6 +37,7 @@ const NewAccountModal: FC = () => {
 
                         <Controller
                             control={control}
+                            defaultValue="0"
                             name="initialBalance"
                             render={({ field: { onChange, value } }) => (
                                 <InputCurrency

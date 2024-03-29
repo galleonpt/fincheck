@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { bankAccountsService } from '../../../../../app/services/bankAccountsService/bankAccountsService';
+import { ICreateAccountPayload } from '../../../../../app/services/bankAccountsService/types';
+import { currencyStringToNumber } from '../../../../../app/utils/currencyStringToNumber';
 
 const schema = z.object({
     initialBalance: z.string().min(1, 'Saldo inicial é obrigatório'),
@@ -30,22 +33,25 @@ const useNewAccountModalController = () => {
     });
 
     const queryClient = useQueryClient();
-    // const { isLoading, mutateAsync } = useMutation(bankAccountsService.create);
+
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (data: ICreateAccountPayload) =>
+            bankAccountsService.create(data),
+    });
 
     const handleSubmit = hookFormSubmit(async (data) => {
         try {
-            // await mutateAsync({
-            //     ...data,
-            //     initialBalance: currencyStringToNumber(data.initialBalance),
-            //     initialBalance: currencyStringToNumber(data.initialBalance),
-            // });
+            await mutateAsync({
+                ...data,
+                initialBalance: currencyStringToNumber(data.initialBalance),
+            });
 
             queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-            toast.success('Conta cadastrada com sucesso!');
+            toast.success('Conta criada com sucesso!');
             closeNewAccountModal();
             reset();
         } catch {
-            toast.error('Erro ao cadastrar a conta!');
+            toast.error('Erro ao criar conta!');
         }
     });
 
@@ -56,7 +62,7 @@ const useNewAccountModalController = () => {
         control,
         errors,
         handleSubmit,
-        isLoading: false,
+        isLoading: isPending,
     };
 };
 

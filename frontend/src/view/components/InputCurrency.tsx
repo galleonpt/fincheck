@@ -16,7 +16,7 @@ const InputCurrency: FC<IInputCurrencyProps> = ({
     value,
     onChange,
     className,
-    defaultValue,
+    defaultValue = 0,
 }) => {
     const handleTransform = (value: string) => {
         return value.length === 0 ? '0' : value;
