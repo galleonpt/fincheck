@@ -45,10 +45,10 @@ const ColorsDropdownInput: FC<IColorsDropdownInputProps> = ({
         return colors.find((c) => c.color === value) ?? null;
     });
 
-    function handleSelect(color: Color) {
+    const handleSelect = (color: Color) => {
         setSelectedColor(color);
         onChange?.(color.color);
-    }
+    };
 
     return (
         <div>
