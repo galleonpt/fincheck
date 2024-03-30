@@ -20,6 +20,7 @@ const Accounts: FC = () => {
         toggleValueVisibility,
         accounts,
         openNewAccountModal,
+        currentBalance,
     } = useAccountsController();
 
     if (isLoading) {
@@ -46,7 +47,7 @@ const Accounts: FC = () => {
                             !areValuesVisible && 'blur-md',
                         )}
                     >
-                        {formatCurrency(123)}
+                        {formatCurrency(currentBalance)}
                     </strong>
 
                     <button
