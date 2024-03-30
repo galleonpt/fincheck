@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import useDashboard from '../../components/DashboardContext/useDashboard';
+import useBankAccounts from '../../../../../app/hooks/useBankAccounts';
 
 const schema = z.object({
     value: z
@@ -50,7 +51,7 @@ const useNewTransactionModalController = () => {
     });
 
     const queryClient = useQueryClient();
-    //   const { accounts } = useBankAccounts()
+    const { accounts } = useBankAccounts();
     //   const { categories: categoriesList } = useCategories()
     //   const {
     //     isLoading,
@@ -97,7 +98,7 @@ const useNewTransactionModalController = () => {
         errors,
         control,
         handleSubmit,
-        accounts: [],
+        accounts,
         categories: [],
         isLoading: false,
     };
