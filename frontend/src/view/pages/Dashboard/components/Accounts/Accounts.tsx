@@ -107,28 +107,20 @@ const Accounts: FC = () => {
                                 />
                             </div>
 
-                            {/* {accounts.map((account) => ( */}
-                            <SwiperSlide key={'account.id'}>
-                                <AccountCard
-                                    data={{
-                                        color: '#f0f',
-                                        name: 'Name',
-                                        currentBalance: 123,
-                                        type: 'CASH',
-                                    }}
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide key={'account.id1'}>
-                                <AccountCard
-                                    data={{
-                                        color: '#f0f',
-                                        name: 'Name',
-                                        currentBalance: 123,
-                                        type: 'CASH',
-                                    }}
-                                />
-                            </SwiperSlide>
-                            {/* ))} */}
+                            {accounts.map(
+                                ({ id, name, color, currentBalance, type }) => (
+                                    <SwiperSlide key={id}>
+                                        <AccountCard
+                                            data={{
+                                                color,
+                                                name,
+                                                currentBalance,
+                                                type,
+                                            }}
+                                        />
+                                    </SwiperSlide>
+                                ),
+                            )}
                         </Swiper>
                     </div>
                 )}
