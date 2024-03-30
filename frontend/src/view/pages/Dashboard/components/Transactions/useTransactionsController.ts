@@ -7,9 +7,8 @@ const useTransactionsController = () => {
 
     const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [transactionBeingEdited, setTransactionBeingEdited] = useState<
-        any | null
-    >(null);
+    const [transactionBeingEdited, setTransactionBeingEdited] =
+        useState<Transaction | null>(null);
 
     function handleOpenFiltersModal() {
         setIsFiltersModalOpen(true);
