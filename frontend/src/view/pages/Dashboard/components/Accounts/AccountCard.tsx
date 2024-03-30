@@ -3,10 +3,10 @@ import cn from '../../../../../app/utils/cn';
 import { BankAccountTypeIcon } from '../../../../components/icons/BankAccountTypeIcon';
 import { formatCurrency } from '../../../../../app/utils/formatCurrency';
 import useDashboard from '../DashboardContext/useDashboard';
+import { BankAccount } from '../../../../../app/entities/BankAccount';
 
 interface IAccountCardProps {
-    // data: BankAccount;
-    data: any;
+    data: BankAccount;
 }
 
 const AccountCard: FC<IAccountCardProps> = ({ data }) => {

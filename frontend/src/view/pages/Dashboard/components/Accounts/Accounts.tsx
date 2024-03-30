@@ -9,6 +9,7 @@ import SliderNavigation from './SliderNavigation';
 import useAccountsController from './useAccountsController';
 import { formatCurrency } from '../../../../../app/utils/formatCurrency';
 import Spinner from '../../../../components/Spinner';
+import { BankAccount } from '../../../../../app/entities/BankAccount';
 
 const Accounts: FC = () => {
     const {
@@ -108,20 +109,11 @@ const Accounts: FC = () => {
                                 />
                             </div>
 
-                            {accounts.map(
-                                ({ id, name, color, currentBalance, type }) => (
-                                    <SwiperSlide key={id}>
-                                        <AccountCard
-                                            data={{
-                                                color,
-                                                name,
-                                                currentBalance,
-                                                type,
-                                            }}
-                                        />
-                                    </SwiperSlide>
-                                ),
-                            )}
+                            {accounts.map((data: BankAccount) => (
+                                <SwiperSlide key={data.id}>
+                                    <AccountCard data={data} />
+                                </SwiperSlide>
+                            ))}
                         </Swiper>
                     </div>
                 )}

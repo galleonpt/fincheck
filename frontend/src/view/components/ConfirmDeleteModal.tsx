@@ -19,7 +19,7 @@ const ConfirmDeleteModal: FC<IConfirmDeleteModalProps> = ({
     isLoading,
 }) => {
     return (
-        <Modal open title="Excluir" onClose={onClose}>
+        <Modal open title="Apagar" onClose={onClose}>
             <div className="flex flex-col items-center text-center gap-6">
                 <div className="w-[52px] h-[52px] rounded-full bg-red-0 flex items-center justify-center">
                     <TrashIcon className="w-6 h-6 text-red-900" />
@@ -43,7 +43,7 @@ const ConfirmDeleteModal: FC<IConfirmDeleteModalProps> = ({
                     onClick={onConfirm}
                     loading={isLoading}
                 >
-                    Sim, desejo excluir
+                    Sim, desejo apagar
                 </Button>
                 <Button
                     className="w-full"

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useState } from 'react';
 import { IDashboardContextValue, IDashboardProvider } from './types';
+import { BankAccount } from '../../../../../app/entities/BankAccount';
 
 export const DashboardContext = createContext({} as IDashboardContextValue);
 
@@ -7,9 +8,8 @@ export const DashboardProvider = ({ children }: IDashboardProvider) => {
     const [areValuesVisible, setAreValuesVisible] = useState(true);
     const [isNewAccountModalOpen, setIsNewAccountModalOpen] = useState(false);
     const [isEditAccountModalOpen, setIsEditAccountModalOpen] = useState(false);
-    const [accountBeingEdited, setAccountBeingEdited] = useState<any | null>(
-        null,
-    );
+    const [accountBeingEdited, setAccountBeingEdited] =
+        useState<BankAccount | null>(null);
     const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
         useState(false);
     const [newTransactionType, setNewTransactionType] = useState<
@@ -28,7 +28,7 @@ export const DashboardProvider = ({ children }: IDashboardProvider) => {
         setIsNewAccountModalOpen(false);
     }, []);
 
-    const openEditAccountModal = useCallback((bankAccount: any) => {
+    const openEditAccountModal = useCallback((bankAccount: BankAccount) => {
         setAccountBeingEdited(bankAccount);
         setIsEditAccountModalOpen(true);
     }, []);

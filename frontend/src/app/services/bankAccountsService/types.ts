@@ -8,3 +8,11 @@ export interface ICreateAccountPayload {
 }
 
 export type TGetAllAccountsResponse = BankAccount[];
+
+export interface IUpdateBankAccountPayload {
+    id: string;
+    name: string;
+    initialBalance: number;
+    color: string;
+    type: 'CHECKING' | 'INVESTMENT' | 'CASH';
+}

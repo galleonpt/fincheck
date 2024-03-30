@@ -7,6 +7,8 @@ import Input from '../../../../components/Input';
 import Select from '../../../../components/Select';
 import Button from '../../../../components/Button';
 import DatePickerInput from '../../../../components/DatePickerInput';
+import { Category } from '../../../../../app/entities/Category';
+import { BankAccount } from '../../../../../app/entities/BankAccount';
 
 const NewTransactionModal: FC = () => {
     const {
@@ -75,10 +77,12 @@ const NewTransactionModal: FC = () => {
                                 onChange={onChange}
                                 value={value}
                                 error={errors.categoryId?.message}
-                                options={categories.map((category: any) => ({
-                                    value: category.id,
-                                    label: category.name,
-                                }))}
+                                options={categories.map(
+                                    (category: Category) => ({
+                                        value: category.id,
+                                        label: category.name,
+                                    }),
+                                )}
                             />
                         )}
                     />
@@ -95,10 +99,12 @@ const NewTransactionModal: FC = () => {
                                 onChange={onChange}
                                 value={value}
                                 error={errors.bankAccountId?.message}
-                                options={accounts.map((account: any) => ({
-                                    value: account.id,
-                                    label: account.name,
-                                }))}
+                                options={accounts.map(
+                                    (account: BankAccount) => ({
+                                        value: account.id,
+                                        label: account.name,
+                                    }),
+                                )}
                             />
                         )}
                     />
