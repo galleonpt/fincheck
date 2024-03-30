@@ -22,14 +22,14 @@ const Fab: FC = () => {
                         className="gap-2"
                         onSelect={() => openNewTransactionModal('EXPENSE')}
                     >
-                        <CategoryIcon type="expense" />
+                        <CategoryIcon type="EXPENSE" />
                         Nova Despesa
                     </DropdownMenu.Item>
                     <DropdownMenu.Item
                         className="gap-2"
                         onSelect={() => openNewTransactionModal('INCOME')}
                     >
-                        <CategoryIcon type="income" />
+                        <CategoryIcon type="INCOME" />
                         Nova Receita
                     </DropdownMenu.Item>
                     <DropdownMenu.Item

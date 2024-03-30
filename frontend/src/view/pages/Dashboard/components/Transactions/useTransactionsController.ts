@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useDashboard from '../DashboardContext/useDashboard';
 import { Transaction } from '../../../../../app/entities/Transaction';
+import { ITransactionsFilters } from '../../../../../app/services/transactionsService/types';
+import useTransactions from '../../../../../app/hooks/useTransactions';
 
 const useTransactionsController = () => {
     const { areValuesVisible } = useDashboard();
@@ -9,40 +11,75 @@ const useTransactionsController = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [transactionBeingEdited, setTransactionBeingEdited] =
         useState<Transaction | null>(null);
+    const [filters, setFilters] = useState<ITransactionsFilters>({
+        month: new Date().getMonth(),
+        year: new Date().getFullYear(),
+    });
 
-    function handleOpenFiltersModal() {
+    const { transactions, isLoading, isInitialLoading, refetchTransactions } =
+        useTransactions(filters);
+
+    useEffect(() => {
+        refetchTransactions();
+    }, [filters, refetchTransactions]);
+
+    function handleChangeFilters<TFilter extends keyof ITransactionsFilters>(
+        filter: TFilter,
+    ) {
+        return (value: ITransactionsFilters[TFilter]) => {
+            if (value === filters[filter]) return;
+
+            setFilters((prevState) => ({
+                ...prevState,
+                [filter]: value,
+            }));
+        };
+    }
+
+    const handleApplyFilters = ({
+        bankAccountId,
+        year,
+    }: {
+        bankAccountId: string | undefined;
+        year: number;
+    }) => {
+        handleChangeFilters('bankAccountId')(bankAccountId);
+        handleChangeFilters('year')(year);
+        handleCloseFiltersModal();
+    };
+
+    const handleOpenFiltersModal = () => {
         setIsFiltersModalOpen(true);
-    }
+    };
 
-    function handleCloseFiltersModal() {
+    const handleCloseFiltersModal = () => {
         setIsFiltersModalOpen(false);
-    }
+    };
 
-    function handleOpenEditModal(transaction: Transaction) {
+    const handleOpenEditModal = (transaction: Transaction) => {
         setIsEditModalOpen(true);
         setTransactionBeingEdited(transaction);
-    }
+    };
 
-    function handleCloseEditModal() {
+    const handleCloseEditModal = () => {
         setIsEditModalOpen(false);
         setTransactionBeingEdited(null);
-    }
+    };
 
-    const transactions: Transaction[] = [];
     const hasTransactions = transactions.length > 0;
 
     return {
         areValuesVisible,
         transactions,
         hasTransactions,
-        isInitialLoading: false,
-        isLoading: false,
+        isInitialLoading,
+        isLoading,
         isFiltersModalOpen,
-        // filters,
+        filters,
         handleOpenFiltersModal,
         handleCloseFiltersModal,
-        // handleChangeFilters,
-        // handleApplyFilters,
+        handleChangeFilters,
+        handleApplyFilters,
         isEditModalOpen,
         transactionBeingEdited,
         handleOpenEditModal,

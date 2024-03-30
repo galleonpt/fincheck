@@ -6,10 +6,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import useDashboard from '../../components/DashboardContext/useDashboard';
 import useBankAccounts from '../../../../../app/hooks/useBankAccounts';
+import useCategories from '../../../../../app/hooks/useCategories';
+import { transactionsService } from '../../../../../app/services/transactionsService/transactionsService';
+import { currencyStringToNumber } from '../../../../../app/utils/currencyStringToNumber';
 
 const schema = z.object({
     value: z
-        .union([z.string().nonempty('Informe o valor'), z.number()])
+        .union([z.string().min(1, 'Informe o valor'), z.number()])
         .transform((val, ctx) => {
             if (val === 0 || val === '0' || val === '0,00') {
                 ctx.addIssue({
@@ -21,9 +24,9 @@ const schema = z.object({
 
             return val;
         }),
-    name: z.string().nonempty('Informe o nome'),
-    categoryId: z.string().nonempty('Informe a categoria'),
-    bankAccountId: z.string().nonempty('Informe a conta'),
+    name: z.string().min(1, 'Informe o nome'),
+    categoryId: z.string().min(1, 'Informe a categoria'),
+    bankAccountId: z.string().min(1, 'Informe a conta'),
     date: z.date(),
 });
 
@@ -52,43 +55,46 @@ const useNewTransactionModalController = () => {
 
     const queryClient = useQueryClient();
     const { accounts } = useBankAccounts();
-    //   const { categories: categoriesList } = useCategories()
-    //   const {
-    //     isLoading,
-    //     mutateAsync
-    //   } = useMutation(transactionsService.create)
+    const { categories: categoriesList } = useCategories();
+    const { isPending, mutateAsync } = useMutation({
+        mutationFn: async (data: any) => transactionsService.create(data),
+    });
 
     const handleSubmit = hookFormSubmit(async (data) => {
         try {
-            //   await mutateAsync({
-            //     ...data,
-            //     value: currencyStringToNumber(data.value),
-            //     type: newTransactionType!,
-            //     date: data.date.toISOString()
-            //   })
+            await mutateAsync({
+                ...data,
+                value: currencyStringToNumber(data.value),
+                type: newTransactionType!,
+                date: data.date.toISOString(),
+            });
 
             queryClient.invalidateQueries({ queryKey: ['transactions'] });
             queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
 
             toast.success(
                 newTransactionType === 'EXPENSE'
-                    ? 'Despesa cadastrada com sucesso!'
-                    : 'Receita cadastrada com sucesso!',
+                    ? 'Despesa criada com sucesso!'
+                    : 'Receita criada com sucesso!',
             );
             closeNewTransactionModal();
             reset();
         } catch {
             toast.success(
                 newTransactionType === 'EXPENSE'
-                    ? 'Erro ao cadastrar despesa!'
-                    : 'Erro ao cadastrar receita!',
+                    ? 'Erro ao criar despesa!'
+                    : 'Erro ao criar receita!',
             );
         }
     });
 
-    //   const categories = useMemo(() => (
-    //     categoriesList.filter(category => category.type === newTransactionType)
-    //   ), [categoriesList, newTransactionType])
+    const categories = useMemo(
+        () =>
+            categoriesList.filter(
+                (category) => category.type === newTransactionType,
+            ),
+        [categoriesList, newTransactionType],
+    );
 
     return {
         isNewTransactionModalOpen,
@@ -99,8 +105,8 @@ const useNewTransactionModalController = () => {
         control,
         handleSubmit,
         accounts,
-        categories: [],
-        isLoading: false,
+        categories,
+        isLoading: isPending,
     };
 };
 

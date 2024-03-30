@@ -16,6 +16,7 @@ import FiltersModal from './FiltersModal';
 
 const Transactions: FC = () => {
     const {
+        filters,
         isFiltersModalOpen,
         areValuesVisible,
         handleOpenEditModal,
@@ -25,6 +26,8 @@ const Transactions: FC = () => {
         isLoading,
         handleOpenFiltersModal,
         handleCloseFiltersModal,
+        // handleApplyFilters,
+        handleChangeFilters,
     } = useTransactionsController();
 
     if (isInitialLoading) {
@@ -42,10 +45,8 @@ const Transactions: FC = () => {
             <header>
                 <div className="flex justify-between items-center">
                     <TransactionTypeDropdown
-                        // onSelect={handleChangeFilters('type')}
-                        // selectedType={filters.type}
-                        onSelect={() => {}}
-                        selectedType={undefined}
+                        onSelect={handleChangeFilters('type')}
+                        selectedType={filters.type}
                     />
                     <button onClick={handleOpenFiltersModal}>
                         <FilterIcon />
@@ -56,10 +57,10 @@ const Transactions: FC = () => {
                     <Swiper
                         slidesPerView={3}
                         centeredSlides
-                        // initialSlide={filters.month}
-                        // onSlideChange={(swiper) => {
-                        //     handleChangeFilters('month')(swiper.realIndex);
-                        // }}
+                        initialSlide={filters.month}
+                        onSlideChange={(swiper) => {
+                            handleChangeFilters('month')(swiper.realIndex);
+                        }}
                     >
                         <SliderNavigation />
                         {MONTHS.map((month, index) => (
