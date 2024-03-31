@@ -7,13 +7,15 @@ import {
     useState,
 } from 'react';
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from '../config/localStorageKeys';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { usersService } from '../services/usersService/usersService';
 import LaunchScreen from '../../view/components/LaunchScreen';
 import toast from 'react-hot-toast';
+import { IMeResponse } from '../services/usersService/types';
 
 interface IAuthContextData {
     signedIn: boolean;
+    user?: IMeResponse;
     signin: (accessToken: string) => void;
     logout: () => void;
 }
@@ -29,9 +31,11 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         return !!storedAccessToken;
     });
 
-    const { isError, isFetching, isSuccess } = useQuery({
+    const queryClient = useQueryClient();
+
+    const { isError, isFetching, isSuccess, data } = useQuery({
         queryKey: ['users', 'me'],
-        queryFn: () => usersService.me(),
+        queryFn: async () => usersService.me(),
         enabled: signedIn,
         staleTime: Infinity,
     });
@@ -44,7 +48,9 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     const logout = useCallback(() => {
         localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
+        queryClient.removeQueries({ queryKey: ['users', 'me'] });
 
+        queryClient.clear();
         setSignedIn(false);
     }, []);
 
@@ -59,6 +65,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         signedIn: isSuccess && signedIn,
         signin,
         logout,
+        user: data,
     };
 
     return (
