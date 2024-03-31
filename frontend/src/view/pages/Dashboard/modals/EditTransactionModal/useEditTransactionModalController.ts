@@ -74,10 +74,10 @@ const useEditTransactionModalController = (
 
             queryClient.invalidateQueries({ queryKey: ['transactions'] });
             queryClient.invalidateQueries({ queryKey: ['bankAccounts'] });
-            toast.success('Transação deletada com sucesso!');
+            toast.success('Transação apagada com sucesso!');
             onClose();
         } catch {
-            toast.error('Erro ao deletar transação!');
+            toast.error('Erro ao apagar transação!');
         }
     };
 
