@@ -13,10 +13,13 @@ import useTransactionsController from './useTransactionsController';
 import Spinner from '../../../../components/Spinner';
 import emptyStateImage from '../../../../../assets/empty-state.svg';
 import FiltersModal from './FiltersModal';
+import EditTransactionModal from '../../modals/EditTransactionModal';
 
 const Transactions: FC = () => {
     const {
         filters,
+        transactionBeingEdited,
+        isEditModalOpen,
         isFiltersModalOpen,
         areValuesVisible,
         handleOpenEditModal,
@@ -28,6 +31,7 @@ const Transactions: FC = () => {
         handleCloseFiltersModal,
         handleApplyFilters,
         handleChangeFilters,
+        handleCloseEditModal,
     } = useTransactionsController();
 
     if (isInitialLoading) {
@@ -96,6 +100,13 @@ const Transactions: FC = () => {
 
                 {hasTransactions && !isLoading && (
                     <>
+                        {transactionBeingEdited && (
+                            <EditTransactionModal
+                                open={isEditModalOpen}
+                                onClose={handleCloseEditModal}
+                                transaction={transactionBeingEdited}
+                            />
+                        )}
                         {transactions.map((transaction) => (
                             <div
                                 key={transaction.id}
