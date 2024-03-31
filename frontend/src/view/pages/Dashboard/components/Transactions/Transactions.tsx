@@ -26,7 +26,7 @@ const Transactions: FC = () => {
         isLoading,
         handleOpenFiltersModal,
         handleCloseFiltersModal,
-        // handleApplyFilters,
+        handleApplyFilters,
         handleChangeFilters,
     } = useTransactionsController();
 
@@ -140,7 +140,7 @@ const Transactions: FC = () => {
             <FiltersModal
                 open={isFiltersModalOpen}
                 onClose={handleCloseFiltersModal}
-                onApplyFilters={() => {}}
+                onApplyFilters={handleApplyFilters}
             />
         </div>
     );

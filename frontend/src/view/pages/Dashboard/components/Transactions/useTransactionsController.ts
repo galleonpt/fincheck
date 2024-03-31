@@ -40,7 +40,7 @@ const useTransactionsController = () => {
         bankAccountId,
         year,
     }: {
-        bankAccountId: string | undefined;
+        bankAccountId?: string;
         year: number;
     }) => {
         handleChangeFilters('bankAccountId')(bankAccountId);
